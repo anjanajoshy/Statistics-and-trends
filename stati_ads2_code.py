@@ -12,7 +12,7 @@ Created on Wed Apr  5 11:05:47 2023
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import scipy.stats as stats
 
 def read_data(filename):
     df = pd.read_csv(filename, skiprows=4)
@@ -232,3 +232,22 @@ indi_h = ['Agricultural land (% of land area)', 'Annual freshwater withdrawals, 
 statd = stat_data(evn_data, 'Country Name', 'Argentina', year3, indi_h)
 print(statd.head())
 heat_map(statd)
+
+#setting statistical table for describtiom
+start = 2000
+end = 2015
+#usinf for to set the table
+year4 = [str(i) for i in range(start, end+1)]
+#listing indicators
+indi_s = ['Nitrous oxide emissions (% change from 1990)', 'Agricultural nitrous oxide emissions (% of total)',
+         'CO2 emissions from liquid fuel consumption (% of total)']
+des = stat_data(evn_data, 'Country Name', 'Kuwait', year4, indi_s)
+summary_stats = des.describe()
+print(summary_stats)
+
+#skewness and kurtosis
+skewness = stats.skew(des['CO2 emissions from liquid fuel consumption (% of total)'])
+kurtosis = des['Agricultural nitrous oxide emissions (% of total)'].kurtosis()
+print('Skewness of Agricultural land (% of land area): ', skewness)
+print('Kurtosis of Electricity production from natural gas in United Arab Emirates : ',kurtosis)
+summary_stats.to_csv('statistics_report.csv')
