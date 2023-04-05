@@ -11,6 +11,7 @@ Created on Wed Apr  5 11:05:47 2023
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 def read_data(filename):
@@ -124,6 +125,63 @@ def line_plot(data, title, x, y):
     plt.show()
     return
 
+def stat_data(df_s, cns, value1, yr, a):
+    '''
+    
+
+    Parameters
+    ----------
+    df_s : statistical table
+        
+    col : 
+        Column name
+    value : TYPE
+        DESCRIPTION.
+    yr : TYPE
+        DESCRIPTION.
+    a : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    df_stat : TYPE
+        DESCRIPTION.
+
+    '''
+    #grouping datas for statistical table
+    df_stat = df_s.groupby(cns, group_keys=True)
+    df_stat = df_stat.get_group(value1)
+    #resetting group
+    df_stat = df_stat.reset_index()
+    df_stat.set_index('Indicator Name', inplace=True)
+    #cropping data  of table
+    df_stat = df_stat.loc[:, yr]
+    df_stat = df_stat.transpose()
+    df_stat = df_stat.loc[:, a]
+    return df_stat
+
+def heat_map(data):
+    '''
+    
+
+    Parameters
+    ----------
+    data : Data for plotting heatmap
+    
+    
+    
+    '''
+    #setting heatmap to get the relation of datas
+    plt.figure(figsize=(80,80))
+    #setting title
+    plt.title("Argentina".upper(), fontsize=70)
+    sns.heatmap(data.corr(), annot=True, annot_kws = {"size":40})
+    plt.xticks(rotation = 90, horizontalalignment = "center", fontsize = 70)
+    plt.yticks(rotation = 0,fontsize=70)
+    plt.savefig('heatmap_ar.png')
+    plt.show()
+    return data
+
 #listing countries for bar plot
 country1 = ['Kenya', 'Japan', 'Denmark', 'Albania', 'Iraq', 'Brazil', 'China']
 #listing years
@@ -165,3 +223,12 @@ print(l_p21)
 print(l_p22)
 line_plot(l_p22, 'Electricity production from oil, gas and coal',
           'Year', '% of total sorces')
+
+#listing year for heat map
+year3 = ['1990', '1995', '2000', '2005', '2010']
+#listing indicator name to create heatmap
+indi_h = ['Agricultural land (% of land area)', 'Annual freshwater withdrawals, agriculture (% of total freshwater withdrawal)', 'Access to electricity (% of population)',
+       'Electricity production from oil, gas and coal sources (% of total)', 'Methane emissions (% change from 1990)', 'Renewable electricity output (% of total electricity output)']
+statd = stat_data(evn_data, 'Country Name', 'Argentina', year3, indi_h)
+print(statd.head())
+heat_map(statd)
