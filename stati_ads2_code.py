@@ -91,6 +91,38 @@ def bar_plot(data, title, x, y):
     plt.show()
     return
 
+def line_plot(data, title, x, y):
+    '''
+    
+
+    Parameters
+    ----------
+    data : LINE PLOT
+        
+    title : 
+        SETTING THE TITLE OF LINE GRAPH
+    x :
+        SETTING X-AXIS
+    y : 
+        SETTING Y-AXIS
+
+
+    '''
+    #setting line plot
+    data.plot.line(figsize=(50, 30), fontsize=36, linewidth=6.0)
+    #selecting yticks
+    plt.yticks([0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 140, 160])
+    #setting title
+    plt.title(title.upper(), fontsize=50, fontweight='bold')
+    #labelling x axis of graph
+    plt.xlabel(x, fontsize=50)
+    #labelling y axis of graph
+    plt.ylabel(y, fontsize=50)
+    #setting legend and its fontsize
+    plt.legend(fontsize=50)
+    plt.savefig(title + '.png')
+    plt.show()
+    return
 
 #listing countries for bar plot
 country1 = ['Kenya', 'Japan', 'Denmark', 'Albania', 'Iraq', 'Brazil', 'China']
@@ -113,3 +145,23 @@ print(b_p21)
 print(b_p22)
 bar_plot(b_p21, 'Annual freshwater withdrawals,agriculture',
          'Countries', 'total freshwater withdrawal')
+
+#listing countries for line plot
+country2 = ['Chile', 'Peru', 'Vietnam', 'Nepal', 'India','Bulgaria','Angola']
+#listing year 
+year2 = ['2000', '2002', '2004', '2006', '2008']
+
+#calling function to filter data for line plot1
+l_p11, l_p12 = filter_data(
+    evn_data, 'Indicator Name', 'Access to electricity (% of population)', country2, year2)
+print(l_p11)
+print(l_p12)
+line_plot(l_p12, 'Access to electricity', 'Year', 'percentage of population')
+
+#calling function ti filter data for line plot2
+l_p21, l_p22 = filter_data(
+    evn_data, 'Indicator Name', 'Electricity production from oil, gas and coal sources (% of total)', country2, year2)
+print(l_p21)
+print(l_p22)
+line_plot(l_p22, 'Electricity production from oil, gas and coal',
+          'Year', '% of total sorces')
