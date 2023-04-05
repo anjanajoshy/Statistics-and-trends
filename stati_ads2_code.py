@@ -13,8 +13,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import scipy.stats as stats
-
-
 def read_data(filename):
     df = pd.read_csv(filename, skiprows=4)
     return df
@@ -22,11 +20,9 @@ def read_data(filename):
 
 def filter_data(dt, cn, value, conty, yr):
     '''
-    
-    
-    
     filtering dataframe
-
+    
+    
     Parameters
     ----------
     dt : dataset
@@ -99,7 +95,8 @@ def bar_plot(data, title, x, y):
 
 def line_plot(data, title, x, y):
     '''
-    
+    line plotting
+
 
     Parameters
     ----------
