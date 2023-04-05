@@ -82,9 +82,9 @@ def bar_plot(data, title, x, y):
     #Setting the title of graph and fontsize
     ax.set_title(title.upper(), fontsize=50, fontweight='bold')
     #Setting x label
-    ax.set_xlabel(x, fontsize=50)
+    ax.set_xlabel(x, fontsize=50,fontweight='bold')
     #Setting y label
-    ax.set_ylabel(y, fontsize=50)
+    ax.set_ylabel(y, fontsize=50,fontweight='bold')
     #Setting the size of legend
     ax.legend(fontsize=50)
     #Saving figure as png form
@@ -110,15 +110,15 @@ def line_plot(data, title, x, y):
 
     '''
     #setting line plot
-    data.plot.line(figsize=(50, 30), fontsize=36, linewidth=6.0)
+    data.plot.line(figsize=(50, 30), fontsize=40, linewidth=6.0)
     #selecting yticks
-    plt.yticks([0, 10, 20, 30, 40, 50, 60, 70, 80, 100, 120, 140, 160])
+    plt.yticks([0, 20, 40, 60, 80, 100, 120, 140, 160])
     #setting title
     plt.title(title.upper(), fontsize=50, fontweight='bold')
     #labelling x axis of graph
-    plt.xlabel(x, fontsize=50)
+    plt.xlabel(x, fontsize=50, fontweight = 'bold')
     #labelling y axis of graph
-    plt.ylabel(y, fontsize=50)
+    plt.ylabel(y, fontsize=50, fontweight = 'bold')
     #setting legend and its fontsize
     plt.legend(fontsize=50)
     plt.savefig(title + '.png')
@@ -160,7 +160,7 @@ def stat_data(df_s, cns, value1, yr, a):
     df_stat = df_stat.loc[:, a]
     return df_stat
 
-def heat_map(data):
+def heat_map(data,cunt):
     '''
     
 
@@ -172,14 +172,11 @@ def heat_map(data):
     
     '''
     #setting heatmap to get the relation of datas
-    plt.figure(figsize=(80,80))
-    #setting title
-    plt.title("Argentina".upper(), fontsize=70)
-    sns.heatmap(data.corr(), annot=True, annot_kws = {"size":40})
-    plt.xticks(rotation = 90, horizontalalignment = "center", fontsize = 70)
-    plt.yticks(rotation = 0,fontsize=70)
-    plt.savefig('heatmap_ar.png')
-    plt.show()
+    plt.figure(figsize=(20,18))
+    ht_map = sns.heatmap(data.corr(), annot=True,  annot_kws = {"size":18})
+    #setting the title of heatmap
+    ht_map.set_title(cunt,fontweight='bold')
+    plt.savefig(cunt + ".png", dpi=300, bbox_inches='tight',fontsize = 30)
     return data
 
 #listing countries for bar plot
@@ -222,18 +219,24 @@ l_p21, l_p22 = filter_data(
 print(l_p21)
 print(l_p22)
 line_plot(l_p22, 'Electricity production from oil, gas and coal',
-          'Year', '% of total sorces')
+          'Year', '% of total sources')
 
 #listing year for heat map
 year3 = ['1990', '1995', '2000', '2005', '2010']
 #listing indicator name to create heatmap
 indi_h = ['Agricultural land (% of land area)', 'Annual freshwater withdrawals, agriculture (% of total freshwater withdrawal)', 'Access to electricity (% of population)',
        'Electricity production from oil, gas and coal sources (% of total)', 'Methane emissions (% change from 1990)', 'Renewable electricity output (% of total electricity output)']
-statd = stat_data(evn_data, 'Country Name', 'Argentina', year3, indi_h)
-print(statd.head())
-heat_map(statd)
+statd_1 = stat_data(evn_data, 'Country Name', 'Argentina', year3, indi_h)
+print(statd_1.head())
+heat_map(statd_1, "Argentina")
 
-#setting statistical table for describtiom
+#plotting second heatmap
+statd_2 = stat_data(evn_data, 'Country Name', 'China', year3, indi_h)
+print(statd_2.head())
+heat_map(statd_2, "China")
+
+
+#setting statistical table for describtion
 start = 2000
 end = 2015
 #usinf for to set the table
