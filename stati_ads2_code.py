@@ -12,6 +12,7 @@ Created on Wed Apr  5 11:05:47 2023
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 def read_data(filename):
     df = pd.read_csv(filename, skiprows=4)
     return df
@@ -54,6 +55,7 @@ def filter_data(dt, cn, value, conty, yr):
     df_tran = df_tran.transpose()
     return df_f, df_tran
 
+
 def bar_plot(data, title, x, y):
     '''
     
@@ -75,7 +77,7 @@ def bar_plot(data, title, x, y):
     ax = data.plot.bar(x='Country Name', rot=0, figsize=(50, 30), fontsize=50)
     #Setting the yticks to plot the graph
     ax.set_yticks([0, 5, 10, 15, 20, 25, 30, 35, 40,
-                  45, 50, 55, 60, 65, 70, 75, 80])
+                  45, 50, 55, 60, 65, 70, 75, 80, 85, 90])
     #Setting the title of graph and fontsize
     ax.set_title(title.upper(), fontsize=50, fontweight='bold')
     #Setting x label
@@ -89,8 +91,9 @@ def bar_plot(data, title, x, y):
     plt.show()
     return
 
+
 #listing countries for bar plot
-country1 = ['Kenya', 'Japan', 'Denmark', 'Albania', 'Iraq','Brazil','China']
+country1 = ['Kenya', 'Japan', 'Denmark', 'Albania', 'Iraq', 'Brazil', 'China']
 #listing years
 year1 = ['2000', '2005', '2010', '2015']
 #reading data as csv file
@@ -102,3 +105,11 @@ b_p11, b_p12 = filter_data(
 print(b_p11)
 print(b_p12)
 bar_plot(b_p11, 'Agricultural land', 'Countries', 'Percentage of land area')
+
+#calling function to filter data for bar plot2
+b_p21, b_p22 = filter_data(
+    evn_data, 'Indicator Name', 'Annual freshwater withdrawals, agriculture (% of total freshwater withdrawal)', country1, year1)
+print(b_p21)
+print(b_p22)
+bar_plot(b_p21, 'Annual freshwater withdrawals,agriculture',
+         'Countries', 'total freshwater withdrawal')
