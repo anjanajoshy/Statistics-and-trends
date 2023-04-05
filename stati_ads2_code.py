@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import scipy.stats as stats
 
+
 def read_data(filename):
     df = pd.read_csv(filename, skiprows=4)
     return df
@@ -21,6 +22,9 @@ def read_data(filename):
 
 def filter_data(dt, cn, value, conty, yr):
     '''
+    
+    
+    
     filtering dataframe
 
     Parameters
@@ -82,15 +86,16 @@ def bar_plot(data, title, x, y):
     #Setting the title of graph and fontsize
     ax.set_title(title.upper(), fontsize=50, fontweight='bold')
     #Setting x label
-    ax.set_xlabel(x, fontsize=50,fontweight='bold')
+    ax.set_xlabel(x, fontsize=50, fontweight='bold')
     #Setting y label
-    ax.set_ylabel(y, fontsize=50,fontweight='bold')
+    ax.set_ylabel(y, fontsize=50, fontweight='bold')
     #Setting the size of legend
     ax.legend(fontsize=50)
     #Saving figure as png form
     plt.savefig(title + '.png')
     plt.show()
     return
+
 
 def line_plot(data, title, x, y):
     '''
@@ -116,14 +121,15 @@ def line_plot(data, title, x, y):
     #setting title
     plt.title(title.upper(), fontsize=50, fontweight='bold')
     #labelling x axis of graph
-    plt.xlabel(x, fontsize=50, fontweight = 'bold')
+    plt.xlabel(x, fontsize=50, fontweight='bold')
     #labelling y axis of graph
-    plt.ylabel(y, fontsize=50, fontweight = 'bold')
+    plt.ylabel(y, fontsize=50, fontweight='bold')
     #setting legend and its fontsize
     plt.legend(fontsize=50)
     plt.savefig(title + '.png')
     plt.show()
     return
+
 
 def stat_data(df_s, cns, value1, yr, a):
     '''
@@ -135,17 +141,10 @@ def stat_data(df_s, cns, value1, yr, a):
         
     col : 
         Column name
-    value : TYPE
-        DESCRIPTION.
-    yr : TYPE
-        DESCRIPTION.
-    a : TYPE
-        DESCRIPTION.
+    value1 :  values for data
+    yr : year
+    a : indicators
 
-    Returns
-    -------
-    df_stat : TYPE
-        DESCRIPTION.
 
     '''
     #grouping datas for statistical table
@@ -160,7 +159,8 @@ def stat_data(df_s, cns, value1, yr, a):
     df_stat = df_stat.loc[:, a]
     return df_stat
 
-def heat_map(data,cunt):
+
+def heat_map(data, cunt):
     '''
     
 
@@ -172,12 +172,13 @@ def heat_map(data,cunt):
     
     '''
     #setting heatmap to get the relation of datas
-    plt.figure(figsize=(20,18))
-    ht_map = sns.heatmap(data.corr(), annot=True,  annot_kws = {"size":18})
+    plt.figure(figsize=(20, 18))
+    ht_map = sns.heatmap(data.corr(), annot=True,  annot_kws={"size": 18})
     #setting the title of heatmap
-    ht_map.set_title(cunt,fontweight='bold')
-    plt.savefig(cunt + ".png", dpi=300, bbox_inches='tight',fontsize = 30)
+    ht_map.set_title(cunt, fontweight='bold')
+    plt.savefig(cunt + ".png", dpi=300, bbox_inches='tight', fontsize=30)
     return data
+
 
 #listing countries for bar plot
 country1 = ['Kenya', 'Japan', 'Denmark', 'Albania', 'Iraq', 'Brazil', 'China']
@@ -202,8 +203,8 @@ bar_plot(b_p21, 'Annual freshwater withdrawals,agriculture',
          'Countries', 'total freshwater withdrawal')
 
 #listing countries for line plot
-country2 = ['Chile', 'Peru', 'Vietnam', 'Nepal', 'India','Bulgaria','Angola']
-#listing year 
+country2 = ['Chile', 'Peru', 'Vietnam', 'Nepal', 'India', 'Bulgaria', 'Angola']
+#listing year
 year2 = ['2000', '2002', '2004', '2006', '2008']
 
 #calling function to filter data for line plot1
@@ -225,7 +226,7 @@ line_plot(l_p22, 'Electricity production from oil, gas and coal',
 year3 = ['1990', '1995', '2000', '2005', '2010']
 #listing indicator name to create heatmap
 indi_h = ['Agricultural land (% of land area)', 'Annual freshwater withdrawals, agriculture (% of total freshwater withdrawal)', 'Access to electricity (% of population)',
-       'Electricity production from oil, gas and coal sources (% of total)', 'Methane emissions (% change from 1990)', 'Renewable electricity output (% of total electricity output)']
+          'Electricity production from oil, gas and coal sources (% of total)', 'Methane emissions (% change from 1990)', 'Renewable electricity output (% of total electricity output)']
 statd_1 = stat_data(evn_data, 'Country Name', 'Argentina', year3, indi_h)
 print(statd_1.head())
 heat_map(statd_1, "Argentina")
@@ -243,14 +244,15 @@ end = 2015
 year4 = [str(i) for i in range(start, end+1)]
 #listing indicators
 indi_s = ['Nitrous oxide emissions (% change from 1990)', 'Agricultural nitrous oxide emissions (% of total)',
-         'CO2 emissions from liquid fuel consumption (% of total)']
+          'CO2 emissions from liquid fuel consumption (% of total)']
 des = stat_data(evn_data, 'Country Name', 'Kuwait', year4, indi_s)
 summary_stats = des.describe()
 print(summary_stats)
 
 #skewness and kurtosis
-skewness = stats.skew(des['CO2 emissions from liquid fuel consumption (% of total)'])
+skewness = stats.skew(
+    des['CO2 emissions from liquid fuel consumption (% of total)'])
 kurtosis = des['Agricultural nitrous oxide emissions (% of total)'].kurtosis()
 print('Skewness of Agricultural land (% of land area): ', skewness)
-print('Kurtosis of Electricity production from natural gas in United Arab Emirates : ',kurtosis)
+print('Kurtosis of Electricity production from natural gas in United Arab Emirates : ', kurtosis)
 summary_stats.to_csv('statistics_report.csv')
